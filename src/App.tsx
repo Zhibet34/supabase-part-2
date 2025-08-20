@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import './quotes.css'
+import Signup from './component/login'
 
 interface quoteType {
   id: number,
@@ -48,11 +49,9 @@ function App() {
 
       setQuotes(quotesResponse.data);
       setUser(usersResponse.data);
-    } catch (e) {
-      const message = e.message;
-      setError(message); 
+    } catch (error) {
       console.error(
-        'Fetch error:', message
+        'Fetch error:', error
       )
     } finally {
       setLoading(false)
@@ -70,14 +69,11 @@ function App() {
     return user?.image
   };
 
-  console.log(quotes)
-
   const QuotesList = () => {
     return(
       <>
         {quotes.map((quote)=>{
           const userImage = getUserImage(quote.user);
-          console.log(userImage)
           return (
             <div key={quote.id} className='quotes'>
               {userImage && <img src={userImage} alt="User" />}
@@ -90,8 +86,13 @@ function App() {
   }
 
   return (
-    <QuotesList/>
-  )
+    <div>
+        <QuotesList/>
+        <div>
+          <Signup/>
+        </div>
+    </div>
+    )
 }
 
 export default App
